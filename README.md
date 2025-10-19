@@ -1,4 +1,4 @@
-☕ AI Café Game — Base Implementation
+# ☕ AI Café Game — MOCK UI
 
 This project is the foundation for a 2D pixel-art café simulation game built with Vite, React, and TypeScript.
 It includes a working gameplay area with a grid-based movement system, environment rendering, and modular rendering functions for each scene element.
