@@ -6,15 +6,25 @@ export type SpriteKey =
   | 'side'  | 'sideMid'
   | 'back'  | 'backMid'  | 'backMidAlt'
   // Base tiles
-  | 'kitchenFloor' | 'kitchenWall' | 'kitchenWallEnd'
+  | 'kitchenFloor' | 'kitchenFloorEndSide' | 'kitchenFloorEndBot'
+  | 'kitchenWall' | 'kitchenWallEnd'
   | 'DiningWallTop' | 'DiningWallTopEnd' | 'DiningWall' | 'DiningWallEnd' | 'DiningFloor'
   | 'outsideWall' | 'outsideGrass'
   // Ceilings
   | 'ceilingX' | 'ceilingXendRIGHT' | 'ceilingXendLEFT'
   | 'ceilingY' | 'ceilingJoinTL' | 'JoinTL1' | 'JoinTL2'
   // Kitchen counters
-  | 'counterX' | 'counterY' | 'counterBR' | 'counterBL' | 'counterTL' | 'counterTR';
+  | 'counterX' | 'counterX0' |'counterX1' 
+  
+  | 'counterCornerTL' |'counterCornerTR' |'counterCornerBL' | 'counterCornerBR'
+  |  'counterJoinTL' | 'counterJoinTR' | 'counterJoinBL' | 'counterJoinBR'
+  | 'counterY' 
+  | 'counterBR' | 'counterBL' 
+  | 'recipeBook' | 'plateTwo'
 
+  // TEST
+  | 'testFood' | 'milkArmy'
+;
 export type ImgMap = Partial<Record<SpriteKey, HTMLImageElement>>;
 
 export interface Chef {

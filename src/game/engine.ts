@@ -86,7 +86,6 @@ function loop(now: number) {
       chef.tx = chef.targetTx; chef.ty = chef.targetTy;
       chef.moving = false; chef.animFrame = 0;
       stepNextTarget();
-      console.log(`(x = ${chef.tx}, y = ${chef.ty})`);
     } else {
       chef.x += (dx / dist) * speed * dt;
       chef.y += (dy / dist) * speed * dt;
@@ -125,6 +124,9 @@ export function initGame(canvas: HTMLCanvasElement) {
     const scaleY = canvas.height / r.height;
     const cx = (e.clientX - r.left) * scaleX;
     const cy = (e.clientY - r.top) * scaleY;
+    const tx = Math.floor(cx / TILE);
+    const ty = Math.floor(cy / TILE);
+    console.log(`(x = ${tx}, y = ${ty})`); // <-- log immediately on click
     enqueuePathTo(Math.floor(cx / TILE), Math.floor(cy / TILE));
   };
   canvas.addEventListener('click', onClick);

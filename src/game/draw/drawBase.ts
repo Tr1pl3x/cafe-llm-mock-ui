@@ -7,7 +7,19 @@ function drawKitchenFloor(ctx: CanvasRenderingContext2D, IM: ImgMap) {
   for (let y = 2; y < 16; y++)
     for (let x = 0; x < 13; x++)
       ctx.drawImage(img, x*TILE, y*TILE, TILE, TILE);
-}
+
+  //(x = 12, y = 2..15)
+  const endBot = IM.kitchenFloorEndSide;
+  if (!endBot) throw Error;
+  for ( let y = 2; y < 16; y++ ) 
+    ctx.drawImage(endBot, 12*TILE, y*TILE, TILE, TILE);
+
+  //(x = 0..12, y = 15)
+  const endSide = IM.kitchenFloorEndBot;
+  if (!endSide) throw Error;
+  for ( let x = 0; x < 14; x++ ) 
+    ctx.drawImage(endSide, x*TILE, 15*TILE, TILE, TILE);
+} 
 
 /** Kitchen wall: (x=0..12, y=0..1) */
 function drawKitchenWall(ctx: CanvasRenderingContext2D, IM: ImgMap) {
