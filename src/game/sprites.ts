@@ -34,13 +34,12 @@ export const SPRITES: Record<SpriteKey, string> = {
   JoinTL1:          '/assets/ceiling/join-lt-1.png',
   JoinTL2:          '/assets/ceiling/join-lt-2.png',
 
-  // Kitchen counters
-  counterX: '/assets/kitchen/counter/counter-X.png',
+   //////** KITCHEN   */////
+
+  // Kitchen-Counters
   counterX0: '/assets/kitchen/counter/counter-X-0.png',
   counterX1: '/assets/kitchen/counter/counter-X-1.png',
   counterY: '/assets/kitchen/counter/counter-Y.png',
-  counterBR:'/assets/kitchen/counter/counter-BR.png',
-  counterBL:'/assets/kitchen/counter/counter-BL.png',
   counterCornerTL:'/assets/kitchen/counter/counter-corner-TL.png',
   counterCornerTR:'/assets/kitchen/counter/counter-corner-TR.png',
   counterJoinTL:'/assets/kitchen/counter/counter-join-TL.png',
@@ -50,8 +49,27 @@ export const SPRITES: Record<SpriteKey, string> = {
   counterJoinBL: 'assets/kitchen/counter/counter-join-BL.png',
   counterJoinBR: 'assets/kitchen/counter/counter-join-BR.png',
 
+  // Kitchen-Stations
+  stove: 'assets/kitchen/stove.png',
+  cuttingboard: 'assets/kitchen/cuttingboard.png',
+  coffeeMachine1: 'assets/kitchen/coffeeMachine/coffeeMachine-1.png',
+  coffeeMachine2: 'assets/kitchen/coffeeMachine/coffeeMachine-2.png',
+  bin0: 'assets/kitchen/bin/bin0.png',
+  bin1: 'assets/kitchen/bin/bin1.png',
+
+  fridge11: 'assets/kitchen/fridge/fridge11.png',
+  fridge12: 'assets/kitchen/fridge/fridge12.png',
+  fridge21: 'assets/kitchen/fridge/fridge21.png',
+  fridge22: 'assets/kitchen/fridge/fridge22.png',
+  fridge31: 'assets/kitchen/fridge/fridge31.png',
+  fridge32: 'assets/kitchen/fridge/fridge32.png',
+
   recipeBook:'assets/kitchen/receipe-book.png',
   plateTwo: 'assets/kitchen/plate-two.png',
+
+  // DECOR
+  knivesSet1: 'assets/kitchen/decor/knife-set-left.png',
+  knivesSet2: 'assets/kitchen/decor/knife-set-right.png',
 
   // Test Food
   testFood:'/assets/test-food.png',

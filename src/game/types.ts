@@ -13,14 +13,23 @@ export type SpriteKey =
   // Ceilings
   | 'ceilingX' | 'ceilingXendRIGHT' | 'ceilingXendLEFT'
   | 'ceilingY' | 'ceilingJoinTL' | 'JoinTL1' | 'JoinTL2'
+
+  //////** KITCHEN   */////
+
   // Kitchen counters
-  | 'counterX' | 'counterX0' |'counterX1' 
-  
+  | 'counterX0' |'counterX1' 
+  | 'counterY' 
   | 'counterCornerTL' |'counterCornerTR' |'counterCornerBL' | 'counterCornerBR'
   |  'counterJoinTL' | 'counterJoinTR' | 'counterJoinBL' | 'counterJoinBR'
-  | 'counterY' 
-  | 'counterBR' | 'counterBL' 
+
+  // Stations
+  | 'stove'    | 'cuttingboard' | 'bin0'| 'bin1'
+  | 'coffeeMachine1' | 'coffeeMachine2'
+  | 'fridge11' | 'fridge12' | 'fridge21' | 'fridge22'| 'fridge31' | 'fridge32'
+
+  // DECOR
   | 'recipeBook' | 'plateTwo'
+  | 'knivesSet1'  | 'knivesSet2'
 
   // TEST
   | 'testFood' | 'milkArmy'
