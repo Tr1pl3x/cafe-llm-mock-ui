@@ -1,6 +1,12 @@
 import { TILE } from '../constants';
 import type { ImgMap } from '../types';
 
+import { 
+  getAllTables,
+  getAllRecipeBooks
+} from '../../utils/mapUtils';
+
+
 // COUNTER X0 : x=1...11 at y =2 and y =14
 const counterX0: Array<{tx:number, ty:number}> =[];
 for (let x = 1; x < 12; x++) { counterX0.push({tx:x,ty:2}); counterX0.push({tx:x,ty:14});}
@@ -13,6 +19,7 @@ for (let x = 1; x < 12; x++) { counterX1.push({tx:x,ty:3}); counterX1.push({tx:x
 const counterY: Array<{tx:number;ty:number}> = [];
 for (let y = 3; y < 15; y++) { counterY.push({tx:0,ty:y}); counterY.push({tx:12,ty:y}); }
 
+/* The Kitche Counter is still hardcoded */
 function drawKitchenCounter(ctx: CanvasRenderingContext2D, IM: ImgMap) {
   const x0 = IM.counterX0;
   if (x0) for (const x of counterX0) ctx.drawImage(x0, x.tx*TILE, x.ty*TILE, TILE, TILE);
@@ -53,6 +60,7 @@ function drawKitchenCounter(ctx: CanvasRenderingContext2D, IM: ImgMap) {
   ctx.drawImage(jbr, 12*TILE, 14*TILE, TILE, TILE);
 
 }
+
 
 function drawKcStations(ctx: CanvasRenderingContext2D, IM: ImgMap) {
   
@@ -108,12 +116,21 @@ function drawKcStations(ctx: CanvasRenderingContext2D, IM: ImgMap) {
   if (!imgCB) throw Error;
   ctx.drawImage(imgCB, 0*TILE, 4*TILE, TILE, TILE);
 
+  /* RECIPE BOOK */
+  const rbPos = getAllRecipeBooks();
+  // (x = 12, y = 3)
+  const rb = IM.recipeBook;
+  if (!rb) throw Error;
+  ctx.drawImage(rb, rbPos[0].x*TILE, rbPos[0].y*TILE, TILE, TILE);
+
   
 
 }
 
 
 export function drawKitchen(ctx: CanvasRenderingContext2D, IM: ImgMap) {
+
+
 
   drawKitchenCounter(ctx, IM);
   drawKcStations(ctx, IM);
@@ -135,27 +152,30 @@ export function drawKitchen(ctx: CanvasRenderingContext2D, IM: ImgMap) {
   // ctx.drawImage(ma, 12*TILE, 10*TILE, TILE, TILE);
 
 
-  // KNIVES SET
-  const kf1 = IM.knivesSet1;
-  const kf2 = IM.knivesSet2;
-  if ((!kf1) || (!kf2)) throw Error;
-  ctx.drawImage(kf1, 1*TILE, 2*TILE, TILE, TILE);
-  ctx.drawImage(kf2, 2*TILE, 2*TILE, TILE, TILE);
+  // // KNIVES SET
+  // const kf1 = IM.knivesSet1;
+  // const kf2 = IM.knivesSet2;
+  // if ((!kf1) || (!kf2)) throw Error;
+  // ctx.drawImage(kf1, 1*TILE, 2*TILE, TILE, TILE);
+  // ctx.drawImage(kf2, 2*TILE, 2*TILE, TILE, TILE);
 
 
 
 
   
-  /* RECIPE BOOK */
-  // (x = 12, y = 3)
-  const rb = IM.recipeBook;
-  if (!rb) throw Error;
-  ctx.drawImage(rb, 12*TILE, 13*TILE, TILE, TILE);
+
   
-  /* Two Plate */
-  // (x = 9, y = 2)
-  const pt = IM.plateTwo;
-  if (!pt) throw Error;
-  ctx.drawImage(pt, 1*TILE, 3*TILE, TILE, TILE);
-  ctx.drawImage(pt, 2*TILE, 3*TILE, TILE, TILE);
+  // /* Two Plate */
+  // // (x = 9, y = 2)
+  // const pt = IM.plateTwo;
+  // if (!pt) throw Error;
+  // ctx.drawImage(pt, 1*TILE, 3*TILE, TILE, TILE);
+  // ctx.drawImage(pt, 2*TILE, 3*TILE, TILE, TILE);
+
+  // const AllTables = getAllTables();
+  // const imgTest = IM.bin1;
+  // if(!imgTest) throw Error;
+  // for(const x of AllTables) {
+  //   ctx.drawImage(imgTest, x.x*TILE, x.y*TILE, TILE, TILE);
+  // }
 }

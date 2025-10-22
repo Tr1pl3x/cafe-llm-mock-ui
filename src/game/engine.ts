@@ -5,6 +5,7 @@ import { drawBase } from './draw/drawBase';
 import { drawCeiling } from './draw/drawCeiling';
 import { drawKitchen } from './draw/drawKitchen';
 import { drawChef } from './draw/drawChef';
+import { getAllRecipeBooks } from '../utils/mapUtils';
 
 let ctx: CanvasRenderingContext2D | null = null;
 let IM: ImgMap = {};
@@ -59,8 +60,14 @@ function drawGrid() {
   for (let y = 0; y <= H; y += TILE) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
 }
 
+/**
+ * drawWorld
+ * Accepts mapData but intentionally ignores it for now (as requested).
+ * Existing drawing remains unchanged.
+ */
 function drawWorld() {
   if (!ctx) throw Error;
+  // mapData is intentionally unused for now
   drawBase(ctx, IM);
   drawCeiling(ctx, IM);
   drawKitchen(ctx, IM);
@@ -98,7 +105,7 @@ function loop(now: number) {
   }
 
   drawGrid();
-  drawWorld();
+  drawWorld(); // <-- pass the stored mapData through each frame
 
   if (chef.dest) {
     ctx.fillStyle = 'rgba(30,144,255,0.25)';
@@ -113,6 +120,7 @@ function loop(now: number) {
 
 interface GameOptions {
   onRecipeBookClick?: () => void;
+  mapData?: any | null; // <-- add mapData to options
 }
 
 export function initGame(canvas: HTMLCanvasElement, options?: GameOptions) {
@@ -132,8 +140,9 @@ export function initGame(canvas: HTMLCanvasElement, options?: GameOptions) {
     const ty = Math.floor(cy / TILE);
     console.log(`(x = ${tx}, y = ${ty})`);
     
+    const rbPos = getAllRecipeBooks();
     // Check if clicking on recipe book tile (12, 13)
-    if (tx === 12 && ty === 13 && options?.onRecipeBookClick) {
+    if (tx === rbPos[0].x && ty === rbPos[0].y && options?.onRecipeBookClick) {
       options.onRecipeBookClick();
     } else {
       // Normal movement

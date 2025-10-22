@@ -6,25 +6,18 @@ import RecipeBook from './RecipeBook'
  * Gameplay Component (16:9 ratio)
  * Owns the canvas and manages the game engine lifecycle
  */
-export default function Gameplay() {
+export default function Gameplay({ mapData }: { mapData: any }) {
   const wrapperRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [showRecipeBook, setShowRecipeBook] = useState(false)
 
   useEffect(() => {
     const canvas = canvasRef.current!
-    
-    // Pass callback to handle recipe book tile clicks
     const cleanup = initGame(canvas, {
-      onRecipeBookClick: () => {
-        console.log('Recipe book clicked!')
-        setShowRecipeBook(true)
-      }
+      onRecipeBookClick: () => setShowRecipeBook(true)
     })
 
-    const onResize = () => {
-      // Canvas fills the 16:9 wrapper
-    }
+    const onResize = () => {}
     window.addEventListener('resize', onResize)
 
     return () => {
@@ -32,7 +25,7 @@ export default function Gameplay() {
       cleanup?.()
       destroyGame()
     }
-  }, [])
+  }, [mapData])
 
   return (
     <div
@@ -43,7 +36,7 @@ export default function Gameplay() {
         background: '#eee',
         display: 'grid',
         placeItems: 'center',
-        position: 'relative' // IMPORTANT: for absolute positioning of overlay
+        position: 'relative',
       }}
     >
       <canvas
@@ -53,14 +46,11 @@ export default function Gameplay() {
           height: '100%',
           imageRendering: 'pixelated',
           cursor: 'pointer',
-          display: 'block'
+          display: 'block',
         }}
       />
-      
-      {/* Recipe Book Overlay */}
-      {showRecipeBook && (
-        <RecipeBook onClose={() => setShowRecipeBook(false)} />
-      )}
+
+      {showRecipeBook && <RecipeBook onClose={() => setShowRecipeBook(false)} />}
     </div>
   )
 }

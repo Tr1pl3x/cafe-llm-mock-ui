@@ -1,0 +1,122 @@
+// src/utils/mapUtils.ts
+export type RawMapItem = { x: number; y: number; item_type: string }
+
+export type ParsedMapData = {
+  tables: { x: number; y: number }[]
+  cookTables: { x: number; y: number }[]
+  serveTables: { x: number; y: number }[]
+  fridges: { x: number; y: number }[]
+  trashBins: { x: number; y: number }[]
+  cookware: { kind: string; x: number; y: number }[]
+  npcs: { role: string; x: number; y: number }[]
+  recipeBooks: { x: number; y: number }[]
+}
+
+export type OrganizedMapData = {
+  allTables: { x: number; y: number }[]
+  allCookTables: { x: number; y: number }[]
+  allServeTables: { x: number; y: number }[]
+  allFridges: { x: number; y: number }[]
+  allTrashBins: { x: number; y: number }[]
+  allRecipeBooks: { x: number; y: number }[]
+  tileIndex: Record<string, string>
+}
+
+/* -------------------------------------------------------------------------- */
+/*                               LOCAL STORAGE                                */
+/* -------------------------------------------------------------------------- */
+
+let _globalMapData: OrganizedMapData | null = null
+
+export function setGlobalMapData(data: OrganizedMapData) {
+  _globalMapData = data
+}
+
+export function getGlobalMapData(): OrganizedMapData | null {
+  return _globalMapData
+}
+
+/** Quick accessors for convenience */
+export const getAllTables = () => _globalMapData?.allTables ?? []
+export const getAllCookTables = () => _globalMapData?.allCookTables ?? []
+export const getAllFridges = () => _globalMapData?.allFridges ?? []
+export const getAllRecipeBooks = () => _globalMapData?.allRecipeBooks ?? []
+
+/* -------------------------------------------------------------------------- */
+/*                             MAP TRANSFORMATION                             */
+/* -------------------------------------------------------------------------- */
+
+export const parseMapResponse = (items: RawMapItem[]): ParsedMapData => {
+  const out: ParsedMapData = {
+    tables: [],
+    cookTables: [],
+    serveTables: [],
+    fridges: [],
+    trashBins: [],
+    cookware: [],
+    npcs: [],
+    recipeBooks: []
+  }
+
+  for (const it of items) {
+    const { x } = it
+    let { y } = it
+    const t = it.item_type
+
+    if (t === 'table') { out.tables.push({ x, y: y + 2 }); continue }
+    if (t === 'MapItemType.TABLE:cook_table') { out.cookTables.push({ x, y: y + 2 }); continue }
+    if (t === 'MapItemType.TABLE:serve_table') { out.serveTables.push({ x, y: y + 2 }); continue }
+    if (t === 'fridge') { out.fridges.push({ x, y: y + 2 }); continue }
+    if (t === 'trash_bin') { out.trashBins.push({ x, y: y + 2 }); continue }
+    if (t.startsWith('MapItemType.COOKWARE:')) {
+      const kind = t.split(':')[1] ?? 'unknown'
+      out.cookware.push({ kind, x, y: y + 2 }); continue
+    }
+    if (t.startsWith('MapItemType.NPC:')) {
+      const role = t.split(':')[1] ?? 'unknown'
+      out.npcs.push({ role, x, y }); continue
+    }
+    if (t === 'recipe_book') { out.recipeBooks.push({ x, y: y + 2 }); continue }
+  }
+
+  return out
+}
+
+export const organizeMapData = (parsed: ParsedMapData): OrganizedMapData => {
+  const pick = (arr?: { x: number; y: number }[]) =>
+    (arr ?? []).map(({ x, y }) => ({ x, y }))
+
+  const allTables      = pick(parsed.tables)
+  const allCookTables  = pick(parsed.cookTables)
+  const allServeTables = pick(parsed.serveTables)
+  const allFridges     = pick(parsed.fridges)
+  const allTrashBins   = pick(parsed.trashBins)
+  const allRecipeBooks = pick(parsed.recipeBooks)
+
+  const tileIndex: Record<string, string> = {}
+  const index = (items: { x: number; y: number }[], label: string) =>
+    items.forEach(({ x, y }) => (tileIndex[`${x},${y}`] = label))
+
+  index(allTables, 'table')
+  index(allCookTables, 'cook_table')
+  index(allServeTables, 'serve_table')
+  index(allFridges, 'fridge')
+  index(allTrashBins, 'trash_bin')
+  index(allRecipeBooks, 'recipe_book')
+
+  
+
+  const organized: OrganizedMapData = {
+    allTables,
+    allCookTables,
+    allServeTables,
+    allFridges,
+    allTrashBins,
+    allRecipeBooks,
+    tileIndex
+  }
+
+  // store globally
+  setGlobalMapData(organized)
+  return organized
+}
