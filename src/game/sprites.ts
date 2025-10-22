@@ -50,6 +50,7 @@ export const SPRITES: Record<SpriteKey, string> = {
   counterJoinBR: 'assets/kitchen/counter/counter-join-BR.png',
 
   // Kitchen-Stations
+  toaster: 'assets/kitchen/toasters/toaster-0.png',
   stove: 'assets/kitchen/stove.png',
   cuttingboard: 'assets/kitchen/cuttingboard.png',
   coffeeMachine1: 'assets/kitchen/coffeeMachine/coffeeMachine-1.png',

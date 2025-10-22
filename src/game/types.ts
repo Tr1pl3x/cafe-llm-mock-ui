@@ -23,7 +23,7 @@ export type SpriteKey =
   |  'counterJoinTL' | 'counterJoinTR' | 'counterJoinBL' | 'counterJoinBR'
 
   // Stations
-  | 'stove'    | 'cuttingboard' | 'bin0'| 'bin1'
+  | 'stove'    | 'cuttingboard' | 'bin0'| 'bin1' | 'toaster'
   | 'coffeeMachine1' | 'coffeeMachine2'
   | 'fridge11' | 'fridge12' | 'fridge21' | 'fridge22'| 'fridge31' | 'fridge32'
 

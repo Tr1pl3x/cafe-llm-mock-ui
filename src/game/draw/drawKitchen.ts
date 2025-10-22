@@ -2,9 +2,9 @@ import { TILE } from '../constants';
 import type { ImgMap } from '../types';
 
 import { 
+  getAllCookwares,
   getAllFridges,
   getAllRecipeBooks,
-  getAllTables,
   getAllTrashBins
 } from '../../utils/mapUtils';
 
@@ -65,7 +65,14 @@ function drawKitchenCounter(ctx: CanvasRenderingContext2D, IM: ImgMap) {
 
 
 function drawKcStations(ctx: CanvasRenderingContext2D, IM: ImgMap) {
+  const AllCookwares = getAllCookwares();
 
+  const toasterPos = AllCookwares.toaster;
+  const imgToaster = IM.toaster;
+  if(!imgToaster) throw Error;
+  ctx.drawImage(imgToaster, toasterPos[0].x*TILE, toasterPos[0].y*TILE, TILE, TILE);
+
+  // TRASHBIN
   const binPos = getAllTrashBins();
   const imgBin0 = IM.bin0;
   const imgBin1 = IM.bin1;
@@ -75,39 +82,41 @@ function drawKcStations(ctx: CanvasRenderingContext2D, IM: ImgMap) {
   ctx.drawImage(imgBin1, binPos[1].x*TILE, binPos[1].y*TILE, TILE, TILE);
 
   // STOVE 
+  const StovePos = getAllCookwares().frypan ?? [];
   const imgStove = IM.stove;
   if (!imgStove) throw Error;
-  ctx.drawImage(imgStove, 0*TILE, 7*TILE, TILE, TILE);
-  ctx.drawImage(imgStove, 0*TILE, 8*TILE, TILE, TILE);
+  ctx.drawImage(imgStove, StovePos[0].x*TILE, StovePos[0].y*TILE, TILE, TILE);
 
-  // COFFEE MACHINE (y=10.11 at x = 12)
+  // COFFEE MACHINE
+  const CMPos = getAllCookwares().coffee_machine ?? [];
   const imgCM1 = IM.coffeeMachine1;
   const imgCM2 = IM.coffeeMachine2;
   if ((!imgCM1) || (!imgCM2)) throw Error;
-  ctx.drawImage(imgCM1, 12*TILE, 10*TILE, TILE, TILE);
-  ctx.drawImage(imgCM2, 12*TILE, 11*TILE, TILE, TILE);
+  ctx.drawImage(imgCM1, CMPos[0].x*TILE, CMPos[0].y*TILE, TILE, TILE);
+  ctx.drawImage(imgCM2, CMPos[1].x*TILE, CMPos[1].y*TILE, TILE, TILE);
 
 
   // FRIDGE
-const fridgePos = getAllFridges();
-const images = [
-  IM.fridge11, IM.fridge12,
-  IM.fridge21, IM.fridge22,
-  IM.fridge31, IM.fridge32
-];
+  const fridgePos = getAllFridges();
+  const images = [
+    IM.fridge11, IM.fridge12,
+    IM.fridge21, IM.fridge22,
+    IM.fridge31, IM.fridge32
+  ];
 
-if (images.some(img => !img)) throw new Error('Fridge images not loaded');
-if (fridgePos.length < images.length) throw new Error('Not enough fridge positions');
+  if (images.some(img => !img)) throw new Error('Fridge images not loaded');
+  if (fridgePos.length < images.length) throw new Error('Not enough fridge positions');
 
-(images as HTMLImageElement[]).forEach((img, i) => {
-  const { x, y } = fridgePos[i];
-  ctx.drawImage(img, x * TILE, y * TILE, TILE, TILE);
-});
+  (images as HTMLImageElement[]).forEach((img, i) => {
+    const { x, y } = fridgePos[i];
+    ctx.drawImage(img, x * TILE, y * TILE, TILE, TILE);
+  });
 
   // cutting board (x = 0, y = 4)
+  const CBPos = getAllCookwares().cutting_board ?? [];
   const imgCB = IM.cuttingboard;
   if (!imgCB) throw Error;
-  ctx.drawImage(imgCB, 0*TILE, 4*TILE, TILE, TILE);
+  ctx.drawImage(imgCB, CBPos[0].x*TILE, CBPos[0].y*TILE, TILE, TILE);
 
   /* RECIPE BOOK */
   const rbPos = getAllRecipeBooks();
