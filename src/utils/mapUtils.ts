@@ -41,6 +41,7 @@ export const getAllTables = () => _globalMapData?.allTables ?? []
 export const getAllCookTables = () => _globalMapData?.allCookTables ?? []
 export const getAllFridges = () => _globalMapData?.allFridges ?? []
 export const getAllRecipeBooks = () => _globalMapData?.allRecipeBooks ?? []
+export const getAllTrashBins = () => _globalMapData?.allTrashBins ?? []
 
 /* -------------------------------------------------------------------------- */
 /*                             MAP TRANSFORMATION                             */
@@ -89,9 +90,36 @@ export const organizeMapData = (parsed: ParsedMapData): OrganizedMapData => {
   const allTables      = pick(parsed.tables)
   const allCookTables  = pick(parsed.cookTables)
   const allServeTables = pick(parsed.serveTables)
-  const allFridges     = pick(parsed.fridges)
-  const allTrashBins   = pick(parsed.trashBins)
+  
+
+const allFridges     = pick(parsed.fridges)
+// allFridges is const
+const xs = [...new Set(allFridges.map(f => f.x))].sort((a, b) => a - b);
+const rowsToAdd = 2;
+
+const startY = Math.min(...allFridges.map(f => f.y)) - rowsToAdd;
+const endY   = Math.max(...allFridges.map(f => f.y));
+
+const newFridges = [];
+for (let y = startY; y <= endY; y++) {
+  for (const x of xs) newFridges.push({ x, y });
+}
+
+// mutate in place (keeps the same const reference)
+allFridges.splice(0, allFridges.length, ...newFridges);
+
+console.log(allFridges);
+
+
+
+
+
+
   const allRecipeBooks = pick(parsed.recipeBooks)
+
+  const allTrashBins   = pick(parsed.trashBins)
+  let newTBinPos= {x:allTrashBins[0].x, y:allTrashBins[0].y -1};
+  allTrashBins.splice(0,0 ,newTBinPos);
 
   const tileIndex: Record<string, string> = {}
   const index = (items: { x: number; y: number }[], label: string) =>

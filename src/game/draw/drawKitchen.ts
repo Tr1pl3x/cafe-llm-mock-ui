@@ -2,8 +2,10 @@ import { TILE } from '../constants';
 import type { ImgMap } from '../types';
 
 import { 
+  getAllFridges,
+  getAllRecipeBooks,
   getAllTables,
-  getAllRecipeBooks
+  getAllTrashBins
 } from '../../utils/mapUtils';
 
 
@@ -63,14 +65,14 @@ function drawKitchenCounter(ctx: CanvasRenderingContext2D, IM: ImgMap) {
 
 
 function drawKcStations(ctx: CanvasRenderingContext2D, IM: ImgMap) {
-  
-  // BIN (x = 11, y = 2..3)
+
+  const binPos = getAllTrashBins();
   const imgBin0 = IM.bin0;
   const imgBin1 = IM.bin1;
   if (!imgBin0) throw Error;
   if (!imgBin1) throw Error;
-  ctx.drawImage(imgBin0, 11*TILE, 3*TILE, TILE, TILE);
-  ctx.drawImage(imgBin1, 11*TILE, 4*TILE, TILE, TILE);
+  ctx.drawImage(imgBin0, binPos[0].x*TILE, binPos[0].y*TILE, TILE, TILE);
+  ctx.drawImage(imgBin1, binPos[1].x*TILE, binPos[1].y*TILE, TILE, TILE);
 
   // STOVE 
   const imgStove = IM.stove;
@@ -87,29 +89,20 @@ function drawKcStations(ctx: CanvasRenderingContext2D, IM: ImgMap) {
 
 
   // FRIDGE
-  // (x = 9, y = 1) (x = 10, y = 1)
-  // (x = 9, y = 2) (x = 10, y = 2) 
-  // (x = 9, y = 3) (x = 10, y = 3)
-  const imgF11 = IM.fridge11;
-  const imgF12 = IM.fridge12;
-  const imgF21 = IM.fridge21;
-  const imgF22 = IM.fridge22;
-  const imgF31 = IM.fridge31;
-  const imgF32 = IM.fridge32;
-  if (
-    (!imgF11) ||
-    (!imgF12) ||
-    (!imgF21) ||
-    (!imgF22) ||
-    (!imgF31) ||
-    (!imgF32) 
-  ) throw Error
-  ctx.drawImage(imgF11, 8*TILE, 1*TILE, TILE, TILE);
-  ctx.drawImage(imgF12, 9*TILE, 1*TILE, TILE, TILE);
-  ctx.drawImage(imgF21, 8*TILE, 2*TILE, TILE, TILE);
-  ctx.drawImage(imgF22, 9*TILE, 2*TILE, TILE, TILE);
-  ctx.drawImage(imgF31, 8*TILE, 3*TILE, TILE, TILE);
-  ctx.drawImage(imgF32, 9*TILE, 3*TILE, TILE, TILE);
+const fridgePos = getAllFridges();
+const images = [
+  IM.fridge11, IM.fridge12,
+  IM.fridge21, IM.fridge22,
+  IM.fridge31, IM.fridge32
+];
+
+if (images.some(img => !img)) throw new Error('Fridge images not loaded');
+if (fridgePos.length < images.length) throw new Error('Not enough fridge positions');
+
+(images as HTMLImageElement[]).forEach((img, i) => {
+  const { x, y } = fridgePos[i];
+  ctx.drawImage(img, x * TILE, y * TILE, TILE, TILE);
+});
 
   // cutting board (x = 0, y = 4)
   const imgCB = IM.cuttingboard;
