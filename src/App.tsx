@@ -1,15 +1,29 @@
 import React, { useState } from 'react'
 import MenuHeader from './components/MenuHeader'
 import Menu from './components/Menu'
-import Header from './components/Header'
+import Header from './components/GameHeader'
 import Gameplay from './components/Gameplay'
+import DifficultySelect from './components/DifficultySelect'
 
 type Screen = 'menu' | 'game'
+type Difficulty = 'easy' | 'medium' | 'hard'
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('menu')
+  const [showDifficultySelect, setShowDifficultySelect] = useState(false)
+  const [difficulty, setDifficulty] = useState<Difficulty | null>(null)
 
-  const handlePlayClick = () => setCurrentScreen('game')
+  const handlePlayClick = () => {
+    setShowDifficultySelect(true)
+  }
+
+  const handleDifficultySelect = (selectedDifficulty: Difficulty) => {
+    setDifficulty(selectedDifficulty)
+    setShowDifficultySelect(false)
+    setCurrentScreen('game')
+    console.log(`Difficulty selected: ${selectedDifficulty}`)
+  }
+
   const handleTestLLMClick = () => console.log('TEST LLM clicked - to be implemented')
   const handleLeaderboardClick = () => console.log('Leaderboard clicked - to be implemented')
 
@@ -25,7 +39,6 @@ export default function App() {
         background: '#f0f0f0',
       }}
     >
-      {/* 16:12 outer box that scales to fit the viewport without scrolling */}
       <div
         style={{
           aspectRatio: '16 / 11',
@@ -33,7 +46,7 @@ export default function App() {
           height: 'auto',
           maxHeight: '94vh',
           display: 'grid',
-          gridTemplateRows: '2fr 9fr', // header/menuHeader (16:2) + body (16:9)
+          gridTemplateRows: '2fr 9fr',
           boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
           overflow: 'hidden',
           background: '#ffffff',
@@ -55,6 +68,11 @@ export default function App() {
           </>
         )}
       </div>
+
+      {/* Difficulty Selection Popup */}
+      {showDifficultySelect && (
+        <DifficultySelect onSelect={handleDifficultySelect} />
+      )}
     </div>
   )
 }
