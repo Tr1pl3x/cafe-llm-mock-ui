@@ -61,9 +61,9 @@ function drawGrid() {
 
 function drawWorld() {
   if (!ctx) throw Error;
-  drawBase(ctx, IM);     // kitchen walls/floor, dining walls/floor, exterior
-  drawCeiling(ctx, IM);  // ceiling tiles and joins
-  drawKitchen(ctx, IM);  // counters (X/Y) and corners
+  drawBase(ctx, IM);
+  drawCeiling(ctx, IM);
+  drawKitchen(ctx, IM);
 }
 
 let last = performance.now();
@@ -111,7 +111,11 @@ function loop(now: number) {
   drawChef(ctx, IM, chef);
 }
 
-export function initGame(canvas: HTMLCanvasElement) {
+interface GameOptions {
+  onRecipeBookClick?: () => void;
+}
+
+export function initGame(canvas: HTMLCanvasElement, options?: GameOptions) {
   const context = canvas.getContext('2d', { alpha: false });
   if (!context) throw new Error('2D context not available');
   ctx = context;
@@ -126,8 +130,15 @@ export function initGame(canvas: HTMLCanvasElement) {
     const cy = (e.clientY - r.top) * scaleY;
     const tx = Math.floor(cx / TILE);
     const ty = Math.floor(cy / TILE);
-    console.log(`(x = ${tx}, y = ${ty})`); // <-- log immediately on click
-    enqueuePathTo(Math.floor(cx / TILE), Math.floor(cy / TILE));
+    console.log(`(x = ${tx}, y = ${ty})`);
+    
+    // Check if clicking on recipe book tile (12, 13)
+    if (tx === 12 && ty === 13 && options?.onRecipeBookClick) {
+      options.onRecipeBookClick();
+    } else {
+      // Normal movement
+      enqueuePathTo(tx, ty);
+    }
   };
   canvas.addEventListener('click', onClick);
 
