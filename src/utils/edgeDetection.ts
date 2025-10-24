@@ -1,4 +1,11 @@
-type XY = { x: number; y: number }
+/*
+  README 
+  This file is to find the edges of the counters in the tables array which is being parsed from the response json body but
+  it is still not successfully detecting yet.
+  */
+
+
+type XY = { x: number; y: number };
 
 export type SegH = { y: number; x1: number; x2: number } // inclusive x1..x2
 export type SegV = { x: number; y1: number; y2: number } // inclusive y1..y2

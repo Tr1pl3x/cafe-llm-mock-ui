@@ -99,17 +99,16 @@ export const organizeMapData = (parsed: ParsedMapData): OrganizedMapData => {
   const allCookTables  = pick(parsed.cookTables)
   const allServeTables = pick(parsed.serveTables)
 
-	/** Taking out the cookwares out of the res.body */
+	/** TAKING OUT ALL THE COOKWARES OUT OF THE RESPONSE JSON BODY */
 	const cookwareByKind: Record<string, Pos[]> = (parsed.cookware ?? [])
   .reduce((acc, { kind, x, y }) => {
     (acc[kind] ??= []).push({ x:x, y:y +2 });
     return acc;
   }, {} as Record<string, Pos[]>);
-	// SORTING OUT THE COFFEE MACHINE TO MATCH THE ARTWORK
+
+	// SORTING OUT THE COFFEE MACHINE ONLY TO MATCH THE ARTWORK IN THE ENGINE
 	let CMNewPos = {x: cookwareByKind.coffee_machine[0].x, y:cookwareByKind.coffee_machine[0].y-1};
 	cookwareByKind.coffee_machine.splice(0,0,CMNewPos);
-	
-	console.log(cookwareByKind)
 
 	/** SORTING OUT THE FRIDGE TO MATCH THE ARTWORK */
 	const allFridges= pick(parsed.fridges)
@@ -142,8 +141,6 @@ export const organizeMapData = (parsed: ParsedMapData): OrganizedMapData => {
   index(allFridges, 'fridge')
   index(allTrashBins, 'trash_bin')
   index(allRecipeBooks, 'recipe_book')
-
-  
 
   const organized: OrganizedMapData = {
 		allTables,

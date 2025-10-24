@@ -11,6 +11,8 @@ import {
 } from '../../utils/mapUtils';
 
 
+/** NOTE: Counters of the the kitchen are still hardcoded and not utilising the API.*/
+
 // COUNTER X0 : x=1...11 at y =2 and y =14
 const counterX0: Array<{tx:number, ty:number}> =[];
 for (let x = 1; x < 12; x++) { counterX0.push({tx:x,ty:2}); counterX0.push({tx:x,ty:14});}
@@ -23,7 +25,6 @@ for (let x = 1; x < 12; x++) { counterX1.push({tx:x,ty:3}); counterX1.push({tx:x
 const counterY: Array<{tx:number;ty:number}> = [];
 for (let y = 3; y < 15; y++) { counterY.push({tx:0,ty:y}); counterY.push({tx:12,ty:y}); }
 
-/* The Kitche Counter is still hardcoded */
 function drawKitchenCounter(ctx: CanvasRenderingContext2D, IM: ImgMap) {
   const x0 = IM.counterX0;
   if (x0) for (const x of counterX0) ctx.drawImage(x0, x.tx*TILE, x.ty*TILE, TILE, TILE);
@@ -62,27 +63,11 @@ function drawKitchenCounter(ctx: CanvasRenderingContext2D, IM: ImgMap) {
   if ((!jbl) || (!jbr)) throw Error;
   ctx.drawImage(jbl, 0*TILE, 14*TILE, TILE, TILE);
   ctx.drawImage(jbr, 12*TILE, 14*TILE, TILE, TILE);
-
 }
 
 
 function drawKcStations(ctx: CanvasRenderingContext2D, IM: ImgMap) {
   const AllCookwares = getAllCookwares();
-
-  const toasterPos = AllCookwares.toaster;
-  const imgToaster = IM.toaster;
-  if(!imgToaster) throw Error;
-  ctx.drawImage(imgToaster, toasterPos[0].x*TILE, toasterPos[0].y*TILE, TILE, TILE);
-
-  // TRASHBIN
-  const binPos = getAllTrashBins();
-  const imgBin0 = IM.bin0;
-  const imgBin1 = IM.bin1;
-  if (!imgBin0) throw Error;
-  if (!imgBin1) throw Error;
-  ctx.drawImage(imgBin0, binPos[0].x*TILE, binPos[0].y*TILE, TILE, TILE);
-  ctx.drawImage(imgBin1, binPos[1].x*TILE, binPos[1].y*TILE, TILE, TILE);
-
   // STOVE 
   const StovePos = getAllCookwares().frypan ?? [];
   const imgStove = IM.stove;
@@ -97,6 +82,25 @@ function drawKcStations(ctx: CanvasRenderingContext2D, IM: ImgMap) {
   ctx.drawImage(imgCM1, CMPos[0].x*TILE, CMPos[0].y*TILE, TILE, TILE);
   ctx.drawImage(imgCM2, CMPos[1].x*TILE, CMPos[1].y*TILE, TILE, TILE);
 
+  // cutting board (x = 0, y = 4)
+  const CBPos = getAllCookwares().cutting_board ?? [];
+  const imgCB = IM.cuttingboard;
+  if (!imgCB) throw Error;
+  ctx.drawImage(imgCB, CBPos[0].x*TILE, CBPos[0].y*TILE, TILE, TILE);
+
+  const toasterPos = AllCookwares.toaster;
+  const imgToaster = IM.toaster;
+  if(!imgToaster) throw Error;
+  ctx.drawImage(imgToaster, toasterPos[0].x*TILE, toasterPos[0].y*TILE, TILE, TILE);
+
+  // TRASHBIN
+  const binPos = getAllTrashBins();
+  const imgBin0 = IM.bin0;
+  const imgBin1 = IM.bin1;
+  if (!imgBin0) throw Error;
+  if (!imgBin1) throw Error;
+  ctx.drawImage(imgBin0, binPos[0].x*TILE, binPos[0].y*TILE, TILE, TILE);
+  ctx.drawImage(imgBin1, binPos[1].x*TILE, binPos[1].y*TILE, TILE, TILE);
 
   // FRIDGE
   const fridgePos = getAllFridges();
@@ -113,12 +117,6 @@ function drawKcStations(ctx: CanvasRenderingContext2D, IM: ImgMap) {
     const { x, y } = fridgePos[i];
     ctx.drawImage(img, x * TILE, y * TILE, TILE, TILE);
   });
-
-  // cutting board (x = 0, y = 4)
-  const CBPos = getAllCookwares().cutting_board ?? [];
-  const imgCB = IM.cuttingboard;
-  if (!imgCB) throw Error;
-  ctx.drawImage(imgCB, CBPos[0].x*TILE, CBPos[0].y*TILE, TILE, TILE);
 
   /* RECIPE BOOK */
   const rbPos = getAllRecipeBooks();

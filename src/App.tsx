@@ -3,17 +3,13 @@ import MenuHeader from './components/MenuHeader'
 import Menu from './components/Menu'
 import Header from './components/GameHeader'
 import Gameplay from './components/Gameplay'
-import DifficultySelect from './components/DifficultySelect'
 import { getKitchenMapOrganized } from './api/map'
 import type { OrganizedMapData } from './utils/mapUtils'
 
 type Screen = 'menu' | 'game'
-type Difficulty = 'easy' | 'medium' | 'hard'
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('menu')
-  const [showDifficultySelect, setShowDifficultySelect] = useState(false)
-  const [difficulty, setDifficulty] = useState<Difficulty | null>(null)
   const [mapData, setMapData] = useState<OrganizedMapData | null>(null)
   const [loadingMap, setLoadingMap] = useState(false)
   const [toast, setToast] = useState<string | null>(null)
@@ -23,13 +19,8 @@ export default function App() {
     setTimeout(() => setToast(null), 3000)
   }
 
-  const handlePlayClick = () => setShowDifficultySelect(true)
-
-  const handleDifficultySelect = async (selectedDifficulty: Difficulty) => {
-    setDifficulty(selectedDifficulty)
-    setShowDifficultySelect(false)
+  const handlePlayClick = async () => {
     setLoadingMap(true)
-
     try {
       const organized = await getKitchenMapOrganized()
       setMapData(organized)
@@ -37,7 +28,7 @@ export default function App() {
     } catch (err: any) {
       console.error(err)
       showToast('Failed to load kitchen map')
-      setCurrentScreen('menu') // stay/return to menu on error
+      setCurrentScreen('menu')
     } finally {
       setLoadingMap(false)
     }
@@ -93,10 +84,6 @@ export default function App() {
           </div>
         )}
       </div>
-
-      {showDifficultySelect && (
-        <DifficultySelect onSelect={handleDifficultySelect} />
-      )}
     </div>
   )
 }
