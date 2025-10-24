@@ -155,6 +155,7 @@ export function drawKitchen(ctx: CanvasRenderingContext2D, IM: ImgMap) {
 
   
 
+  /**MOCK ARTWORKS */
   
   // /** Test Food */
   // // (x = 12, y = 9)
@@ -175,13 +176,7 @@ export function drawKitchen(ctx: CanvasRenderingContext2D, IM: ImgMap) {
   // if ((!kf1) || (!kf2)) throw Error;
   // ctx.drawImage(kf1, 1*TILE, 2*TILE, TILE, TILE);
   // ctx.drawImage(kf2, 2*TILE, 2*TILE, TILE, TILE);
-
-
-
-
-  
-
-  
+ 
   // /* Two Plate */
   // // (x = 9, y = 2)
   // const pt = IM.plateTwo;

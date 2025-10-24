@@ -60,14 +60,8 @@ function drawGrid() {
   for (let y = 0; y <= H; y += TILE) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
 }
 
-/**
- * drawWorld
- * Accepts mapData but intentionally ignores it for now (as requested).
- * Existing drawing remains unchanged.
- */
 function drawWorld() {
   if (!ctx) throw Error;
-  // mapData is intentionally unused for now
   drawBase(ctx, IM);
   drawCeiling(ctx, IM);
   drawKitchen(ctx, IM);
@@ -105,7 +99,7 @@ function loop(now: number) {
   }
 
   drawGrid();
-  drawWorld(); // <-- pass the stored mapData through each frame
+  drawWorld();
 
   if (chef.dest) {
     ctx.fillStyle = 'rgba(30,144,255,0.25)';
@@ -120,7 +114,6 @@ function loop(now: number) {
 
 interface GameOptions {
   onRecipeBookClick?: () => void;
-  mapData?: any | null; // <-- add mapData to options
 }
 
 export function initGame(canvas: HTMLCanvasElement, options?: GameOptions) {
@@ -140,8 +133,8 @@ export function initGame(canvas: HTMLCanvasElement, options?: GameOptions) {
     const ty = Math.floor(cy / TILE);
     console.log(`(x = ${tx}, y = ${ty})`);
     
+    // CLICKED COORDINATE WILL BE CHECKED WITH THE COORDINATE OF THE RECIPE BOOK
     const rbPos = getAllRecipeBooks();
-    // Check if clicking on recipe book tile (12, 13)
     if (tx === rbPos[0].x && ty === rbPos[0].y && options?.onRecipeBookClick) {
       options.onRecipeBookClick();
     } else {

@@ -38,8 +38,8 @@ export type SpriteKey =
 export type ImgMap = Partial<Record<SpriteKey, HTMLImageElement>>;
 
 export interface Chef {
-  tx: number; ty: number;  // tile coords
-  x: number;  y: number;   // pixel coords
+  tx: number; ty: number;  
+  x: number;  y: number;   
   speedTilesPerSec: number;
   moving: boolean;
   targetTx: number; targetTy: number;
