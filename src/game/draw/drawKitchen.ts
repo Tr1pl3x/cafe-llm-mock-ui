@@ -2,9 +2,11 @@ import { TILE } from '../constants';
 import type { ImgMap } from '../types';
 
 import { 
+  getAllCookTables,
   getAllCookwares,
   getAllFridges,
   getAllRecipeBooks,
+  getAllServeTables,
   getAllTrashBins
 } from '../../utils/mapUtils';
 
@@ -125,6 +127,21 @@ function drawKcStations(ctx: CanvasRenderingContext2D, IM: ImgMap) {
   if (!rb) throw Error;
   ctx.drawImage(rb, rbPos[0].x*TILE, rbPos[0].y*TILE, TILE, TILE);
 
+  /* SERVE TABLE */
+  const stPos = getAllServeTables();
+  const imgServeTable = IM.serveTable;
+  if (!imgServeTable) throw Error;
+  for ( const st of stPos) {
+    ctx.drawImage(imgServeTable, st.x*TILE, st.y*TILE, TILE, TILE);
+  }
+  /** COOK TABLE */
+  const ckPos = getAllCookTables()
+  const imgCookTable = IM.cookTable;
+  if ( !imgCookTable) throw Error;
+  for ( const ck of ckPos) {
+    ctx.drawImage(imgCookTable, ck.x*TILE, ck.y*TILE, TILE, TILE);
+  }
+  
   
 
 }

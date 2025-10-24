@@ -43,6 +43,7 @@ export function getGlobalMapData(): OrganizedMapData | null {
 /** Quick accessors for convenience */
 export const getAllTables = () => _globalMapData?.allTables ?? []
 export const getAllCookTables = () => _globalMapData?.allCookTables ?? []
+export const getAllServeTables = () => _globalMapData?.allServeTables ?? []
 export const getAllFridges = () => _globalMapData?.allFridges ?? []
 export const getAllRecipeBooks = () => _globalMapData?.allRecipeBooks ?? []
 export const getAllTrashBins = () => _globalMapData?.allTrashBins ?? []
@@ -98,7 +99,7 @@ export const organizeMapData = (parsed: ParsedMapData): OrganizedMapData => {
   const allCookTables  = pick(parsed.cookTables)
   const allServeTables = pick(parsed.serveTables)
 
-	/** Sorting the cookwares out of the res body */
+	/** Taking out the cookwares out of the res.body */
 	const cookwareByKind: Record<string, Pos[]> = (parsed.cookware ?? [])
   .reduce((acc, { kind, x, y }) => {
     (acc[kind] ??= []).push({ x:x, y:y +2 });

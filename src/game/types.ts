@@ -21,6 +21,7 @@ export type SpriteKey =
   | 'counterY' 
   | 'counterCornerTL' |'counterCornerTR' |'counterCornerBL' | 'counterCornerBR'
   |  'counterJoinTL' | 'counterJoinTR' | 'counterJoinBL' | 'counterJoinBR'
+  | 'serveTable' | 'cookTable'
 
   // Stations
   | 'stove'    | 'cuttingboard' | 'bin0'| 'bin1' | 'toaster'
